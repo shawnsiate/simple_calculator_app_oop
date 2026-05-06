@@ -1,3 +1,6 @@
+color = "\033[36m"
+reset = "\033[0m"
+
 class Operation:
     def __init__(self, num1, num2):
         self.num1 = num1
@@ -26,16 +29,17 @@ class Division(Operation):
 
 def calculation():
     while True:
-        print("\n======== Simple Calculator ========")
-        print("1. Addition (+)")
-        print("2. Subtraction (-)")
-        print("3. Multiplication (*)")
-        print("4. Division (/)")
+        print(f"{color}\n======== Simple Calculator ========{reset}")
+        print(f"{color}1. Addition (+){color}")
+        print(f"{color}2. Subtraction (-){reset}")
+        print(f"{color}3. Multiplication (*){reset}")
+        print(f"{color}4. Division (/){reset}")
+        print(f"{color}==================================={reset}")
 
         try:
-            choice = input("Choose an operation [1/2/3/4]: ")
-            numb1 = float(input("Enter first number: "))
-            numb2 = float(input("Enter second number: "))
+            choice = input(f"{color}Choose an operation [1/2/3/4]: {reset}")
+            numb1 = float(input(f"{color}Enter first number: {reset}"))
+            numb2 = float(input(f"{color}Enter second number: {reset}"))
 
             result = 0
             if choice == '1':
@@ -51,19 +55,19 @@ def calculation():
                 op = Division(numb1, numb2)
                 result = op.calculate()
             else:
-                print("Invalid Choice.")
+                print(f"{color}Invalid Choice.{reset}")
                 continue
 
-            print(f"The result is: {result}")
+            print(f"{color}The result is: {result}{reset}")
 
         except ValueError:
-                print("Error: Please enter a numeric value.")
+                print(f"{color}Error: Please enter a numeric value.{reset}")
         except ZeroDivisionError as e:
-                print("Error: {e}")
+                print(f"{color}Error: {e}{reset}")
 
-        try_again = input("Want to try again? (yes/no):").lower()
+        try_again = input(f"{color}Want to try again? (yes/no):{reset}").lower()
         if try_again != 'yes':
-            print("Thank you!")
+            print(f"{color}Thank you!{reset}")
             break
 
 if __name__ == "__main__":
