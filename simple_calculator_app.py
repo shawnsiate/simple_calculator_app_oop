@@ -1,5 +1,5 @@
-color = "\033[36m"
-reset = "\033[0m"
+import tkinter as tk
+from tkinter import messagebox
 
 class Operation:
     def __init__(self, num1, num2):
@@ -27,21 +27,44 @@ class Division(Operation):
             raise ZeroDivisionError("Cannot divide by zero.")
         return self.num1 / self.num2
 
-def calculation():
-    while True:
-        print(f"{color}\n======== Simple Calculator ========{reset}")
-        print(f"{color}1. Addition (+){color}")
-        print(f"{color}2. Subtraction (-){reset}")
-        print(f"{color}3. Multiplication (*){reset}")
-        print(f"{color}4. Division (/){reset}")
-        print(f"{color}==================================={reset}")
+class CalculatorDesign:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Simple Calculator")
+        self.root.geometry("350x450")
+        self.root.configure(bg="beige")
+        accent_color = "dark red"
+        fg_color = "white"
+        self.title_label = tk.Label(
+            root,
+            text = "Simple Calculator",
+            font = ("Helvetica", 19, "bold"),
+            bg = "beige",
+            fg = accent_color
+        )
+        self.title_label.pack(pady=(20, 10))
+        tk.Label(root, text="Enter first number:", bg="beige").pack(pady=(10, 0))
+        self.entry1 = tk.Entry(root)
+        self.entry1.pack(pady=5)
+        tk.Label(root, text="Enter second number:", bg="beige").pack(pady=(10, 0))
+        self.entry2 = tk.Entry(root)
+        self.entry2.pack(pady=5)
+        tk.Label(root, text="Choose operation", bg="beige").pack(pady=(15, 5))
+        btn_frame = tk.Frame(root, bg="beige")
+        btn_frame.pack()
+        tk.Button(btn_frame, text="+", width=6, height=2, bg=accent_color, fg=fg_color, font=("Arial", 10, "bold"), command=lambda: self.perform_calculation('1')).grid(row=0, column=0, padx=5, pady=5)
+        tk.Button(btn_frame, text="-", width=6, height=2, bg=accent_color, fg=fg_color, font=("Arial", 10, "bold"), command=lambda: self.perform_calculation('2')).grid(row=0, column=1, padx=5, pady=5)
+        tk.Button(btn_frame, text="*", width=6, height=2, bg=accent_color, fg=fg_color, font=("Arial", 10, "bold"), command=lambda: self.perform_calculation('3')).grid(row=1, column=0, padx=5, pady=5)
+        tk.Button(btn_frame, text="/", width=6, height=2, bg=accent_color, fg=fg_color, font=("Arial", 10, "bold"), command=lambda: self.perform_calculation('4')).grid(row=1, column=1, padx=5, pady=5)
+        self.result_label = tk.Label(root, text="The result is:", bg="beige", font=("Arial", 12, "bold"))
+        self.result_label.pack(pady=25)
 
+    def perform_calculation(self, choice):
         try:
-            choice = input(f"{color}Choose an operation [1/2/3/4]: {reset}")
-            numb1 = float(input(f"{color}Enter first number: {reset}"))
-            numb2 = float(input(f"{color}Enter second number: {reset}"))
-
+            numb1 = float(self.entry1.get())
+            numb2 = float(self.entry2.get())
             result = 0
+
             if choice == '1':
                 op = Addition(numb1, numb2)
                 result = op.calculate()
@@ -54,25 +77,15 @@ def calculation():
             elif choice == '4':
                 op = Division(numb1, numb2)
                 result = op.calculate()
-            else:
-                print(f"{color}Invalid Choice.{reset}")
-                continue
 
-            print(f"{color}The result is: {result}{reset}")
+            self.result_label.config(text=f"The result is: {result}")
 
         except ValueError:
-                print(f"{color}Error: Please enter a numeric value.{reset}")
+            messagebox.showerror("Error" "Please enter a numeric value.")
         except ZeroDivisionError as e:
-                print(f"{color}Error: {e}{reset}")
+            messagebox.showerror("Error", str(e))
 
-        try_again = input(f"{color}Want to try again? (yes/no):{reset}").lower()
-        if try_again != 'yes':
-            print(f"{color}Thank you!{reset}")
-            break
-
-if __name__ == "__main__":
-            calculation()
-
-
-
-
+if __name__=="__main__":
+    root = tk.Tk()
+    app = CalculatorDesign(root)
+    root.mainloop()
